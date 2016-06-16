@@ -21,6 +21,7 @@ public class client_frame extends javax.swing.JFrame
     BufferedReader reader;
     PrintWriter writer;
     OutputStream out;
+    InputStream in;
 
     public void ListenThread() 
     {
@@ -65,16 +66,19 @@ public class client_frame extends javax.swing.JFrame
 
     }
     
-    public void recieveFile(String[] data){
-        try (DataInputStream in = new DataInputStream(sock.getInputStream());
-                FileOutputStream fos = new FileOutputStream(System.getProperty("user.home") + "\\Desktop\\" + data[0])){
-            
-            byte[] bytes = new byte[Integer.parseInt(data[1])];
-            in.read(bytes);
-            fos.write(bytes);
+    public void recieveFile(String fileName, int fileSize){
+       ta_chat.append("Handling file income");
+        try (FileOutputStream fos = new FileOutputStream("C:\\Users\\dafi\\Desktop\\recievedToClient.txt")){
+            byte [] bytes  = new byte [fileSize];
+            int count;
+            while ((count = in.read(bytes)) > 0) {
+                fos.write(bytes, 0, count);
+            }
+
         } catch (IOException ex) {
-            ta_chat.append("Can'r recieve file. \n");
-        }
+           ta_chat.append("File handling went wrong. \n");
+            ex.printStackTrace();
+       }
     }
     
     public void sendFile(String fullPath) {
@@ -118,7 +122,7 @@ public class client_frame extends javax.swing.JFrame
         public void run() 
         {
             String[] data;
-            String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat", allUsers = "All users", recieveFile = "Recieve";
+            String stream, done = "Done", connect = "Connect", disconnect = "Disconnect", chat = "Chat", allUsers = "All users", recieve = "Recieve";
 
             try 
             {
@@ -148,10 +152,11 @@ public class client_frame extends javax.swing.JFrame
                         ta_chat.append(data[1] + "\n");
                         ta_chat.setCaretPosition(ta_chat.getDocument().getLength());        
                     }
-                    else if (data[2].equals (recieveFile))
+                    else if (data[2].equals (recieve))
                     {
-                        recieveFile(data);
-                        ta_chat.append("Recieved file");
+                        String[] fileData = data[1].split("---");
+                        recieveFile(fileData[0], Integer.parseInt(fileData[1]));
+                        ta_chat.append("Recieving file: " + fileData[0]);
                     }
                 }
            }catch(Exception ex) { }
@@ -340,6 +345,7 @@ public class client_frame extends javax.swing.JFrame
             {
                 sock = new Socket(address, port);
                 out = sock.getOutputStream();
+                in = sock.getInputStream();
                 InputStreamReader streamreader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(streamreader);
                 writer = new PrintWriter(sock.getOutputStream());

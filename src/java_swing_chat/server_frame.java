@@ -2,7 +2,12 @@ package java_swing_chat;
 
 import java.io.*;
 import java.net.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class server_frame extends javax.swing.JFrame {
    ArrayList clientOutputStreams;
@@ -13,6 +18,7 @@ public class server_frame extends javax.swing.JFrame {
        BufferedReader reader;
        Socket sock;
        InputStream in;
+       OutputStream out;
        PrintWriter client;
 
        public ClientHandler(Socket clientSocket, PrintWriter user) {
@@ -20,6 +26,7 @@ public class server_frame extends javax.swing.JFrame {
             try {
                 sock = clientSocket;
                 in = sock.getInputStream();
+                out = sock.getOutputStream();
                 InputStreamReader isReader = new InputStreamReader(sock.getInputStream());
                 reader = new BufferedReader(isReader);
             } catch (Exception e) {
@@ -70,20 +77,54 @@ public class server_frame extends javax.swing.JFrame {
                 clientOutputStreams.remove(client);
              } 
 	}
-       public void fileHandler(String fileName, int fileSize) {
+        public void fileHandler(String fileName, int fileSize) {
            ta_chat.append("Handling user input file");
-            try (FileOutputStream fos = new FileOutputStream("C:\\Users\\dafi\\Desktop\\recieved.txt")){
+           String file_dest = "C:\\Users\\dafi\\Desktop\\recieved.txt";
+            try (FileOutputStream fos = new FileOutputStream(file_dest)){
                 byte [] bytes  = new byte [fileSize];
                 int count;
                 while ((count = in.read(bytes)) > 0) {
                     fos.write(bytes, 0, count);
+                    sendFile(file_dest);
                 }
+                
                 
             } catch (IOException ex) {
                ta_chat.append("File handling went wrong. \n");
                 ex.printStackTrace();
            }
-       }
+        }
+        
+        public void sendFile(String fileName) {
+            //WHOLE NEW LOGIC; OLD IS IN THE .RAR ON DESKTOP
+            try {
+                Path path = Paths.get(fileName);
+                File file = new File (fileName);
+                
+                byte [] bytes  = Files.readAllBytes(path);
+                try ( InputStream in = new FileInputStream(fileName);) {
+                    try {
+                        ta_chat.append("Sending some files to clients" + "\n");
+                        tellEveryone("foo" + ":" + file.getName() + "---" + bytes.length + ":Recieve");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        ta_chat.append("Message was not sent. \n");
+                    }
+
+                    int count;
+                    while ((count = in.read(bytes)) > 0) {
+                        out.write(bytes, 0, count);
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    ta_chat.append("Problem reading the file. \n");
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(client_frame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
     }
 
     public server_frame() 
