@@ -68,7 +68,7 @@ public class client_frame extends javax.swing.JFrame
     
     public void recieveFile(String fileName, int fileSize){
        ta_chat.append(fileName + " file recieved\n");
-        try (FileOutputStream fos = new FileOutputStream("clients_" + fileName)){
+        try (FileOutputStream fos = new FileOutputStream(fileName)){
             byte [] bytes  = new byte [fileSize];
             int count;
             count = in.read(bytes);
@@ -176,8 +176,8 @@ public class client_frame extends javax.swing.JFrame
         ta_chat = new javax.swing.JTextArea();
         tf_chat = new javax.swing.JTextField();
         b_send = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        onlineUser = new javax.swing.JButton();
+        uploadFile = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Chat - Client's frame");
@@ -235,17 +235,17 @@ public class client_frame extends javax.swing.JFrame
             }
         });
 
-        jButton1.setText("Online Users");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        onlineUser.setText("Online Users");
+        onlineUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                onlineUserActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Upload file");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        uploadFile.setText("Upload file");
+        uploadFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                uploadFileActionPerformed(evt);
             }
         });
 
@@ -261,11 +261,11 @@ public class client_frame extends javax.swing.JFrame
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(b_send, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(uploadFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lb_username, javax.swing.GroupLayout.DEFAULT_SIZE, 62, Short.MAX_VALUE)
+                            .addComponent(lb_username, javax.swing.GroupLayout.PREFERRED_SIZE, 62, Short.MAX_VALUE)
                             .addComponent(lb_address, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -283,7 +283,7 @@ public class client_frame extends javax.swing.JFrame
                                 .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(b_disconnect, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(onlineUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 1, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -296,7 +296,7 @@ public class client_frame extends javax.swing.JFrame
                     .addComponent(tf_address, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lb_port)
                     .addComponent(tf_port, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(onlineUser))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -310,7 +310,7 @@ public class client_frame extends javax.swing.JFrame
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(uploadFile, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(11, 11, 11)
                         .addComponent(b_send, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(tf_chat, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -389,7 +389,7 @@ public class client_frame extends javax.swing.JFrame
         tf_chat.requestFocus();
     }//GEN-LAST:event_b_sendActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void onlineUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onlineUserActionPerformed
         ta_chat.append("\n Online users : \n");
         try {
             writer.println(username + ":" + "Give me all online users" + ":" + "All users");
@@ -397,9 +397,9 @@ public class client_frame extends javax.swing.JFrame
         } catch (Exception ex) {
             ta_chat.append("Message was not sent. \n");
         }  
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_onlineUserActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void uploadFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadFileActionPerformed
 
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(null);
@@ -410,11 +410,11 @@ public class client_frame extends javax.swing.JFrame
             sendFile(fullPath);
         }
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_uploadFileActionPerformed
 
     public static void main(String args[]) 
     {
-        java.awt.EventQueue.invokeLater(    new Runnable() 
+        java.awt.EventQueue.invokeLater(new Runnable() 
         {
             @Override
             public void run() 
@@ -428,16 +428,16 @@ public class client_frame extends javax.swing.JFrame
     private javax.swing.JButton b_connect;
     private javax.swing.JButton b_disconnect;
     private javax.swing.JButton b_send;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lb_address;
     private javax.swing.JLabel lb_port;
     private javax.swing.JLabel lb_username;
+    private javax.swing.JButton onlineUser;
     private javax.swing.JTextArea ta_chat;
     private javax.swing.JTextField tf_address;
     private javax.swing.JTextField tf_chat;
     private javax.swing.JTextField tf_port;
     private javax.swing.JTextField tf_username;
+    private javax.swing.JButton uploadFile;
     // End of variables declaration//GEN-END:variables
 }

@@ -35,10 +35,10 @@
                           <Component id="b_end" max="32767" attributes="0"/>
                           <Component id="b_start" pref="75" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="291" max="32767" attributes="0"/>
+                      <EmptySpace pref="279" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="b_users" pref="115" max="32767" attributes="0"/>
                           <Component id="b_clear" max="32767" attributes="0"/>
-                          <Component id="b_users" pref="103" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -52,9 +52,9 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" pref="340" max="32767" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="b_start" min="-2" max="-2" attributes="0"/>
-                  <Component id="b_users" min="-2" pref="25" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="b_start" max="32767" attributes="0"/>
+                  <Component id="b_users" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">

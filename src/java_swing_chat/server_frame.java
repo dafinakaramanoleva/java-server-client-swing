@@ -85,18 +85,17 @@ public class server_frame extends javax.swing.JFrame {
                ta_chat.append("File handling went wrong. \n");
                 ex.printStackTrace();
            }
-           sendFile(fileName); 
+           sendFile(fileName);
         }
         
         public void sendFile(String fileName) {
             try {
                 Path path = Paths.get(fileName);
-                File file = new File (fileName);
                 
                 byte [] bytes  = Files.readAllBytes(path);
                 try ( InputStream in = new FileInputStream(fileName);) {
                     try {
-                        tellEveryone("foo" + ":" + file.getName() + "---" + bytes.length + ":Recieve");
+                        tellEveryone("foo" + ":" + fileName + "---" + bytes.length + ":Recieve");
                     } catch (Exception e) {
                         e.printStackTrace();
                         ta_chat.append("Message was not sent. \n");
@@ -183,10 +182,10 @@ public class server_frame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(b_end, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(b_start, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 291, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 279, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(b_clear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(b_users, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))))
+                            .addComponent(b_users, javax.swing.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+                            .addComponent(b_clear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -195,9 +194,9 @@ public class server_frame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(b_start)
-                    .addComponent(b_users, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(b_start, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(b_users, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(b_clear)
@@ -259,7 +258,7 @@ public class server_frame extends javax.swing.JFrame {
             users = new ArrayList();  
 
             try {
-                @SuppressWarnings("resource")
+//                @SuppressWarnings("resource")
                 ServerSocket serverSock = new ServerSocket(2222);
 
                 while (true) {
