@@ -67,13 +67,12 @@ public class client_frame extends javax.swing.JFrame
     }
     
     public void recieveFile(String fileName, int fileSize){
-       ta_chat.append("Handling file income");
-        try (FileOutputStream fos = new FileOutputStream("C:\\Users\\dafi\\Desktop\\recievedToClient.txt")){
+       ta_chat.append(fileName + " file recieved\n");
+        try (FileOutputStream fos = new FileOutputStream("clients_" + fileName)){
             byte [] bytes  = new byte [fileSize];
             int count;
-            while ((count = in.read(bytes)) > 0) {
-                fos.write(bytes, 0, count);
-            }
+            count = in.read(bytes);
+            fos.write(bytes, 0, count);
 
         } catch (IOException ex) {
            ta_chat.append("File handling went wrong. \n");
@@ -82,14 +81,13 @@ public class client_frame extends javax.swing.JFrame
     }
     
     public void sendFile(String fullPath) {
-        //WHOLE NEW LOGIC; OLD IS IN THE .RAR ON DESKTOP
         try {
             Path path = Paths.get(fullPath);
             File file = new File (fullPath);
             byte [] bytes  = Files.readAllBytes(path);
             try ( InputStream in = new FileInputStream(file);) {
                 try {
-                    ta_chat.append("Sending some files.." + "\n");
+                    ta_chat.append("Sending.." + "\n");
                     writer.println(username + ":" + file.getName() + "---" + bytes.length + ":File");
                     writer.flush();
                 } catch (Exception e) {
@@ -156,7 +154,6 @@ public class client_frame extends javax.swing.JFrame
                     {
                         String[] fileData = data[1].split("---");
                         recieveFile(fileData[0], Integer.parseInt(fileData[1]));
-                        ta_chat.append("Recieving file: " + fileData[0]);
                     }
                 }
            }catch(Exception ex) { }

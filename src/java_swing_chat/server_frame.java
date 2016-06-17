@@ -62,14 +62,12 @@ public class server_frame extends javax.swing.JFrame {
                     } else if (data[2].equals(file)) {
                         String[] fileData = data[1].split("---");
                         fileHandler(fileData[0], Integer.parseInt(fileData[1]));
+                        
                     } else {
                         ta_chat.append("No Conditions were met. \n");
                     }
                 } 
              }
-//             catch (ArrayIndexOutOfBoundsException e) {
-//                 fileHandler(sock);
-//             }
              catch (Exception ex) 
              {
                 ta_chat.append("Lost a connection. \n");
@@ -78,25 +76,19 @@ public class server_frame extends javax.swing.JFrame {
              } 
 	}
         public void fileHandler(String fileName, int fileSize) {
-           ta_chat.append("Handling user input file");
-           String file_dest = "C:\\Users\\dafi\\Desktop\\recieved.txt";
-            try (FileOutputStream fos = new FileOutputStream(file_dest)){
+            try (FileOutputStream fos = new FileOutputStream(fileName)){
                 byte [] bytes  = new byte [fileSize];
                 int count;
-                while ((count = in.read(bytes)) > 0) {
-                    fos.write(bytes, 0, count);
-                    sendFile(file_dest);
-                }
-                
-                
+                count = in.read(bytes);
+                fos.write(bytes, 0, count);
             } catch (IOException ex) {
                ta_chat.append("File handling went wrong. \n");
                 ex.printStackTrace();
            }
+           sendFile(fileName); 
         }
         
         public void sendFile(String fileName) {
-            //WHOLE NEW LOGIC; OLD IS IN THE .RAR ON DESKTOP
             try {
                 Path path = Paths.get(fileName);
                 File file = new File (fileName);
@@ -104,7 +96,6 @@ public class server_frame extends javax.swing.JFrame {
                 byte [] bytes  = Files.readAllBytes(path);
                 try ( InputStream in = new FileInputStream(fileName);) {
                     try {
-                        ta_chat.append("Sending some files to clients" + "\n");
                         tellEveryone("foo" + ":" + file.getName() + "---" + bytes.length + ":Recieve");
                     } catch (Exception e) {
                         e.printStackTrace();
