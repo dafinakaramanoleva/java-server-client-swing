@@ -6,8 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class server_frame extends javax.swing.JFrame {
    ArrayList clientOutputStreams;
@@ -111,7 +109,8 @@ public class server_frame extends javax.swing.JFrame {
                     ta_chat.append("Problem reading the file. \n");
                 }
             } catch (IOException ex) {
-                Logger.getLogger(client_frame.class.getName()).log(Level.SEVERE, null, ex);
+                ex.printStackTrace();
+                 ta_chat.append("Problem sending the file. \n");
             }
         }
         
@@ -258,7 +257,7 @@ public class server_frame extends javax.swing.JFrame {
             users = new ArrayList();  
 
             try {
-//                @SuppressWarnings("resource")
+                @SuppressWarnings("resource")
                 ServerSocket serverSock = new ServerSocket(2222);
 
                 while (true) {
@@ -274,6 +273,7 @@ public class server_frame extends javax.swing.JFrame {
             }
             catch (Exception ex)
             {
+                ex.printStackTrace();
                 ta_chat.append("Error making a connection. \n");
             }
         }

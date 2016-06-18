@@ -6,8 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 public class client_frame extends javax.swing.JFrame 
@@ -105,7 +103,8 @@ public class client_frame extends javax.swing.JFrame
                 ta_chat.append("Problem reading the file. \n");
             }
         } catch (IOException ex) {
-            Logger.getLogger(client_frame.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+             ta_chat.append("Problem sending the file. \n");
         }
     }
     
